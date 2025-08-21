@@ -1,5 +1,3 @@
-![Django Tests](https://github.com/<TU_USUARIO>/<TU_REPO>/actions/workflows/django.yml/badge.svg)
-
 
 Un sistema bancario full-stack en **Django + Django REST Framework**, diseñado con principios de **POO**, **servicios de aplicación** y **tests automáticos**.  
 Soporta **retiros**, **depósitos**, control de **límites diarios** e **idempotencia**.
