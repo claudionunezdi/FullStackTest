@@ -11,5 +11,5 @@ Instalación local
 
 1. Clonar el repositorio:
    ```bash
-   git clone https://github.com/<TU_USUARIO>/<TU_REPO>.git
+   git clone [(https://github.com/claudionunezdi/FullStackTest)]
    cd <TU_REPO>
