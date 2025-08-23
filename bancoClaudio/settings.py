@@ -1,7 +1,6 @@
 from pathlib import Path
 import os
-import dj_database_url  # 👈 Asegúrate de tener dj-database-url en requirements.txt
-
+import dj_database_url  
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -129,3 +128,10 @@ REST_FRAMEWORK = {
         "rest_framework.permissions.IsAuthenticated",
     ],
 }
+
+MIDDLEWARE.insert(0, "corsheaders.middleware.CorsMiddleware")
+
+CORS_ALLOWED_ORIGINS = [
+    "http://127.0.0.1:5173",  # tu frontend
+    "http://localhost:5173",
+]
