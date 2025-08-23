@@ -22,11 +22,15 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
 
+
     # Terceros
     "rest_framework",
+    "rest_framework_simplejwt",
+    "corsheaders",
 
     # Apps del proyecto
     "nucleo",
+    "accounts",
 ]
 
 MIDDLEWARE = [
@@ -37,6 +41,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
 ]
 
 ROOT_URLCONF = "bancoClaudio.urls"
@@ -64,8 +69,14 @@ WSGI_APPLICATION = "bancoClaudio.wsgi.application"
 
 IN_GITHUB = os.environ.get("GITHUB_WORKFLOW") is not None
 
+DATABASES = {
+    'default': dj_database_url.config(
+        default=os.getenv("DATABASE_URL", "sqlite:///db.sqlite3")
+    )
+}
+
+"""
 if IN_GITHUB:
-    # 👉 Usar SQLite en CI (más rápido y sin dependencias externas)
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
@@ -73,14 +84,12 @@ if IN_GITHUB:
         }
     }
 else:
-    # 👉 Usar Postgres en local (se configura vía DATABASE_URL)
     DATABASES = {
         "default": dj_database_url.config(
             default="postgres://postgres:postgres@localhost:5432/bancoclaudio"
         )
     }
-
-
+"""
 # Configuración de auth y seguridad
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -113,6 +122,8 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework.authentication.SessionAuthentication",
         "rest_framework.authentication.BasicAuthentication",
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+        
     ],
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",
