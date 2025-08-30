@@ -19,7 +19,6 @@ export default function AccountCreateForm({ onCreated, onCancel }) {
     setBusy(true);
     setMsg("");
     try {
-      // balance lo maneja backend (read-only)
       await createAccount({
         number: form.number.trim(),
         currency: form.currency,
@@ -27,8 +26,8 @@ export default function AccountCreateForm({ onCreated, onCancel }) {
         daily_limit: form.daily_limit,
       });
       setMsg("✅ Cuenta creada");
-      onCreated?.(); // refrescar lista
-      onCancel?.();  // cerrar formulario
+      onCreated?.();
+      onCancel?.();
     } catch (err) {
       const detail = err.response?.data?.detail || "Error al crear cuenta";
       setMsg(`❌ ${detail}`);
@@ -41,21 +40,24 @@ export default function AccountCreateForm({ onCreated, onCancel }) {
     <form onSubmit={submit} className="space-y-3">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         <div>
-          <label className="block text-sm text-gray-600 mb-1">Número</label>
+          <label className="block text-sm text-slate-700 mb-1">Número</label>
           <input
             name="number"
-            className="border w-full p-2 rounded text-gray-800"
+            className="w-full rounded border border-slate-300 bg-white text-slate-900 placeholder-slate-400 p-2
+                       focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             placeholder="001-0005"
             value={form.number}
             onChange={handleChange}
             required
           />
         </div>
+
         <div>
-          <label className="block text-sm text-gray-600 mb-1">Moneda</label>
+          <label className="block text-sm text-slate-700 mb-1">Moneda</label>
           <select
             name="currency"
-            className="border w-full p-2 rounded text-gray-800"
+            className="w-full rounded border border-slate-300 bg-white text-slate-900 p-2
+                       focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             value={form.currency}
             onChange={handleChange}
           >
@@ -63,24 +65,28 @@ export default function AccountCreateForm({ onCreated, onCancel }) {
             <option value="USD">USD</option>
           </select>
         </div>
+
         <div>
-          <label className="block text-sm text-gray-600 mb-1">Límite por tx</label>
+          <label className="block text-sm text-slate-700 mb-1">Límite por tx</label>
           <input
             name="per_tx_limit"
             type="number"
             step="0.01"
-            className="border w-full p-2 rounded text-gray-800"
+            className="w-full rounded border border-slate-300 bg-white text-slate-900 placeholder-slate-400 p-2
+                       focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             value={form.per_tx_limit}
             onChange={handleChange}
           />
         </div>
+
         <div>
-          <label className="block text-sm text-gray-600 mb-1">Límite diario</label>
+          <label className="block text-sm text-slate-700 mb-1">Límite diario</label>
           <input
             name="daily_limit"
             type="number"
             step="0.01"
-            className="border w-full p-2 rounded text-gray-800"
+            className="w-full rounded border border-slate-300 bg-white text-slate-900 placeholder-slate-400 p-2
+                       focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             value={form.daily_limit}
             onChange={handleChange}
           />
@@ -97,13 +103,17 @@ export default function AccountCreateForm({ onCreated, onCancel }) {
         <button
           type="button"
           onClick={onCancel}
-          className="bg-gray-200 text-gray-800 px-4 py-2 rounded hover:bg-gray-300"
+          className="bg-slate-200 text-slate-800 px-4 py-2 rounded hover:bg-slate-300"
         >
           Cancelar
         </button>
       </div>
 
-      {msg && <p className="text-sm text-gray-700">{msg}</p>}
+      {msg && (
+        <p className={`text-sm ${msg.startsWith("✅") ? "text-emerald-700" : "text-red-600"}`}>
+          {msg}
+        </p>
+      )}
     </form>
   );
 }

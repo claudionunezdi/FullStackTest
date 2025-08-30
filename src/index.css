@@ -70,3 +70,26 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+@layer base {
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    @apply bg-slate-50 text-slate-800 antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply text-slate-900;
+  }
+
+  label {
+    @apply text-slate-700;
+  }
+}

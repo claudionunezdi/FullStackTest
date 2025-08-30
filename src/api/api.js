@@ -15,6 +15,24 @@ API.interceptors.request.use((config) => {
 let isRefreshing = false;
 let queue = [];
 
+API.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) config.headers.Authorization = `Bearer ${token}`;
+
+  // Si es escritura y no termina en slash (y no hay query), agrega '/'
+  const needsSlash =
+    ["post", "put", "patch", "delete"].includes((config.method || "").toLowerCase()) &&
+    typeof config.url === "string" &&
+    !config.url.endsWith("/") &&
+    !config.url.includes("?");
+
+  if (needsSlash) config.url += "/";
+
+  return config;
+});
+
+
+
 API.interceptors.response.use(
   (res) => res,
   async (error) => {

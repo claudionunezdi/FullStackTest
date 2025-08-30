@@ -31,7 +31,6 @@ export default function MovementPanel({ account, onChanged }) {
       setAmount("");
       onChanged?.();
     } catch (err) {
-      // mapeos: 402 fondos insuficientes, 409 inactiva, 429 límite diario
       const d = err.response?.data?.detail;
       setMsg(`❌ ${d || "Error al retirar"}`);
     } finally {
@@ -42,53 +41,48 @@ export default function MovementPanel({ account, onChanged }) {
   return (
     <div className="bg-white rounded-lg shadow-md p-4 md:p-6">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-xl font-semibold">Operaciones</h2>
+        <h2 className="text-xl font-semibold text-slate-900">Operaciones</h2>
         {account ? (
-          <span className="text-sm text-gray-600">
+          <span className="text-sm text-slate-600">
             {account.number} · Saldo <b>{account.balance} {account.currency}</b>
           </span>
         ) : (
-          <span className="text-sm text-gray-500">Selecciona una cuenta</span>
+          <span className="text-sm text-slate-500">Selecciona una cuenta</span>
         )}
       </div>
 
       <div className="flex gap-2 mb-4">
         <button
           onClick={() => setTab("deposit")}
-          className={`px-3 py-2 rounded ${
-            tab === "deposit" ? "bg-blue-600 text-white" : "bg-gray-200"
-          }`}
+          className={`px-3 py-2 rounded ${tab === "deposit" ? "bg-blue-600 text-white" : "bg-slate-200 text-slate-800"}`}
         >
           Depositar
         </button>
         <button
           onClick={() => setTab("withdraw")}
-          className={`px-3 py-2 rounded ${
-            tab === "withdraw" ? "bg-blue-600 text-white" : "bg-gray-200"
-          }`}
+          className={`px-3 py-2 rounded ${tab === "withdraw" ? "bg-blue-600 text-white" : "bg-slate-200 text-slate-800"}`}
         >
           Retirar
         </button>
         <button
           onClick={() => setTab("transfer")}
-          className={`px-3 py-2 rounded ${
-            tab === "transfer" ? "bg-blue-600 text-white" : "bg-gray-200"
-          }`}
+          className={`px-3 py-2 rounded ${tab === "transfer" ? "bg-blue-600 text-white" : "bg-slate-200 text-slate-800"}`}
         >
           Transferir
         </button>
       </div>
 
-      {/* Monto */}
       <div className="space-y-3">
-        <label className="block text-sm text-gray-600">Monto</label>
+        <label className="block text-sm text-slate-700">Monto</label>
         <input
           type="number"
           step="0.01"
-          className="border w-full p-2 rounded text-gray-800"
+          className="w-full rounded border border-slate-700 bg-slate-800 text-white placeholder-slate-400 p-2
+                     focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
           disabled={!canOperate || busy}
+          placeholder="0.00"
         />
 
         {tab === "deposit" && (
@@ -112,14 +106,17 @@ export default function MovementPanel({ account, onChanged }) {
         )}
 
         {tab === "transfer" && (
-          <div className="p-3 rounded border border-dashed text-sm text-gray-600">
-            Placeholder de transferencia (UI lista).  
-            Para hacerlo bien, haremos un endpoint transaccional que debite y acredite
-            en una sola operación (ACID
+          <div className="p-3 rounded border border-dashed text-sm text-slate-600">
+            Placeholder de transferencia (UI lista).
+            La implementación será transaccional (ACID).
           </div>
         )}
 
-        {msg && <p className="text-sm text-gray-700">{msg}</p>}
+        {msg && (
+          <p className={`text-sm ${msg.startsWith("✅") ? "text-emerald-700" : "text-red-600"}`}>
+            {msg}
+          </p>
+        )}
       </div>
     </div>
   );

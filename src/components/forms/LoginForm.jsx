@@ -30,13 +30,13 @@ export default function LoginForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <input
-        className="border w-full p-2 rounded text-gray-800"
+        className="border w-full p-2 rounded text-white-800"
         name="username"
         placeholder="Usuario"
         onChange={handleChange}
       />
       <input
-        className="border w-full p-2 rounded text-gray-800"
+        className="border w-full p-2 rounded text-white-800"
         type="password"
         name="password"
         placeholder="Contraseña"
